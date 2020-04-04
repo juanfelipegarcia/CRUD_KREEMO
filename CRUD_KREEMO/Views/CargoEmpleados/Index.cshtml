@@ -1,35 +1,41 @@
-﻿@model IEnumerable<CRUD_KREEMO.Models.Entities.CargoEmpleado>
+﻿@model IEnumerable<CRUD_KREEMO.Clases.CargoEmpleadoDetalle>
+
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pagina Principal";
 }
 
-<h1>Cargo Empleados</h1>
+    <h1>Cargo Empleados</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+
 </p>
-<table class="table">
+
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Cargo)
             </th>
-            <th></th>
+            <th>
+                <a asp-action="CrearEditar" class="btn btn-outline-success"><i class="fas fa-users"></i> Crear Cargo</a>
+            </th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cargo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCargo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCargo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCargo">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <i class="fas fa-users"></i> @Html.DisplayFor(modelItem => item.Cargo)
+                </td>
+                <td>
+                    <a asp-action="CrearEditar" asp-route-id="@item.IdCargo"><i class="far fa-edit"></i>Editar</a> |
+                    <a asp-action="Eliminar" asp-route-id="@item.IdCargo" class="text-danger m1-1" onclick="return confirm ('Deseas eliminar este registro?')"><i class="fa fa-trash-alt fa-lg"></i>Eliminar</a>
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>

@@ -7,147 +7,93 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRUD_KREEMO.Models.DAL;
 using CRUD_KREEMO.Models.Entities;
+using CRUD_KREEMO.Models.Abstrac;
 
 namespace CRUD_KREEMO.Controllers
 {
     public class CargoEmpleadosController : Controller
     {
-        private readonly DbContextPrueba _context;
+        private readonly ICargoEmpleadoBusiness _context;
+        private CargoEmpleado cargoEmpleado;
 
-        public CargoEmpleadosController(DbContextPrueba context)
+        public CargoEmpleadosController(ICargoEmpleadoBusiness context)
         {
             _context = context;
         }
 
         // GET: CargoEmpleados
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string busqueda)
         {
-            return View(await _context.CargoEmpleados.ToListAsync());
+            if (!string.IsNullOrEmpty(busqueda))
+                return View(await _context.obtenerCargosPorNombrePorId(busqueda));
+            else
+                return View(await _context.obtenerCargoEmpleadosTodos());
         }
 
-        // GET: CargoEmpleados/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cargoEmpleado = await _context.CargoEmpleados
-                .FirstOrDefaultAsync(m => m.IdCargo == id);
-            if (cargoEmpleado == null)
-            {
-                return NotFound();
-            }
-
-            return View(cargoEmpleado);
-        }
+       
 
         // GET: CargoEmpleados/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CrearEditar(int id = 0)
         {
-            return View();
+            if (id == 0)
+                return View(new CargoEmpleado());
+            else
+                cargoEmpleado = await _context.obtenerCargoEmpleadoPorID(id);
+            return View(cargoEmpleado);
+
         }
+
 
         // POST: CargoEmpleados/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCargo,Cargo")] CargoEmpleado cargoEmpleado)
+        public async Task<IActionResult> CrearEditar([Bind("IdCargo,Cargo")] CargoEmpleado cargoEmpleado)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cargoEmpleado);
-                await _context.SaveChangesAsync();
+                await _context.guardarCargoEmpleado(cargoEmpleado);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(cargoEmpleado);
+
+            return RedirectToAction(nameof(Index));
+
         }
 
-        // GET: CargoEmpleados/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<ActionResult<CargoEmpleado>> EmpleadoPorID(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var cargoEmpleado = await _context.CargoEmpleados.FindAsync(id);
-            if (cargoEmpleado == null)
-            {
-                return NotFound();
-            }
-            return View(cargoEmpleado);
-        }
+            var empleado = await _context.obtenerCargoEmpleadoPorID(id);
 
-        // POST: CargoEmpleados/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCargo,Cargo")] CargoEmpleado cargoEmpleado)
-        {
-            if (id != cargoEmpleado.IdCargo)
+            if (empleado == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cargoEmpleado);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CargoEmpleadoExists(cargoEmpleado.IdCargo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cargoEmpleado);
+            return empleado;
         }
+
+
+
 
         // GET: CargoEmpleados/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Eliminar(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var cargoEmpleado = await _context.CargoEmpleados
-                .FirstOrDefaultAsync(m => m.IdCargo == id);
-            if (cargoEmpleado == null)
-            {
-                return NotFound();
-            }
-
-            return View(cargoEmpleado);
-        }
-
-        // POST: CargoEmpleados/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cargoEmpleado = await _context.CargoEmpleados.FindAsync(id);
-            _context.CargoEmpleados.Remove(cargoEmpleado);
-            await _context.SaveChangesAsync();
+            await _context.eliminarCargoEmpleado(await _context.obtenerCargoEmpleadoPorID(id));
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CargoEmpleadoExists(int id)
-        {
-            return _context.CargoEmpleados.Any(e => e.IdCargo == id);
-        }
+
+        
+
+       
     }
 }
