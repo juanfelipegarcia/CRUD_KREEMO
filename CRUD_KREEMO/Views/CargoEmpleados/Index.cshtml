@@ -11,6 +11,9 @@
 
 </p>
 
+@*<video src="~/imagenes/Board Game With Dice And Pins.mp4" autoplay loop muted>
+</video>*@
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -28,11 +31,11 @@
         {
             <tr>
                 <td>
-                    <i class="fas fa-users"></i> @Html.DisplayFor(modelItem => item.Cargo)
+                     @Html.DisplayFor(modelItem => item.Cargo)
                 </td>
                 <td>
-                    <a asp-action="CrearEditar" asp-route-id="@item.IdCargo"><i class="far fa-edit"></i>Editar</a> |
-                    <a asp-action="Eliminar" asp-route-id="@item.IdCargo" class="text-danger m1-1" onclick="return confirm ('Deseas eliminar este registro?')"><i class="fa fa-trash-alt fa-lg"></i>Eliminar</a>
+                    <a asp-action="CrearEditar" asp-route-id="@item.IdCargo"><i class="far fa-edit"></i>  Editar</a> |
+                    <a asp-action="Eliminar" asp-route-id="@item.IdCargo" class="text-danger m1-1" onclick="return confirm ('Deseas eliminar este registro?')"><i class="fa fa-trash-alt fa-lg"></i>  Eliminar</a>
                 </td>
 
             </tr>

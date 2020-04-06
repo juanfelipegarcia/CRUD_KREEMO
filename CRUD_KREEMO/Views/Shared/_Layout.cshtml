@@ -6,12 +6,13 @@
     <title>@ViewData["Title"] - KREEMO</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/estilos.css"/>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/imagenes/kreemo.jpg" width="20" height="20">KREEMO </a>
+                <a class="navbar-brand text-danger" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/imagenes/kreemo (1).png" width="20" height="20">  KREEMO </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,10 +20,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Index"><i class="fas fa-id-card"></i>Empleados</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Empleados" asp-action="Index"  ><i class="fas fa-id-card"></i>  Empleados</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="CargoEmpleados" asp-action="Index"><i class="fas fa-users"></i>Cargos</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="CargoEmpleados" asp-action="Index"><i class="fas fa-users"></i>  Cargos</a>
                         </li>
                     </ul>
                 </div>
@@ -36,8 +37,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container"><img src="~/imagenes/kreemo.jpg" width="20" height="20">
-            &copy; 2020 - KREEMO - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container">
+            <img src="~/imagenes/kreemo (1).png" width="20" height="20"> <a class="text-danger">&copy; 2020 - kREEMO TEAM </a> - <a class="text-white">  <i class="fas fa-barcode"></i> GIVER CIFUENTES - CAROLINA NICHOLLS - LUISA ZABALA - OLMEIRO OROZCO - JUAN FELIPE GARCIA - ADSI <i class="fas fa-barcode"></i> </a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
